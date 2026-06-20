@@ -1,7 +1,7 @@
 
 import diagnoses from '../../data/diagnoses.ts'
-
-const getDiagnoses = ()=> {
+import type { Diagnoses } from '../types.ts';
+const getDiagnoses = () : Diagnoses[]=> {
     return diagnoses;
 }
 
