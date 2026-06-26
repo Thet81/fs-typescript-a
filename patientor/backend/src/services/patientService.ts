@@ -1,8 +1,8 @@
 
-import type {NonsensitivePatientsData, Patients } from '../types.ts';
+import type {NonsensitivePatientsData, Patients, NewPatientEntry } from '../types.ts';
 
 import patientsData from '../../data/patients.ts'
-
+import {v4 as uuidv4} from 'uuid'
 const getPatients = (): Patients[]=> {
     return patientsData;
 }
@@ -17,9 +17,19 @@ const getNonsensitivePatients = () : NonsensitivePatientsData []=> {
             occupation
         }
     });
+};
+
+const addPatients = (entry: NewPatientEntry) : Patients => {
+    const newPatientEntry = {
+        id : uuidv4(),
+        ...entry
+    };
+    patientsData.push(newPatientEntry);
+    return newPatientEntry;
 }
 
 export default {
     getPatients,
-    getNonsensitivePatients
+    getNonsensitivePatients,
+    addPatients
 }
