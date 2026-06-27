@@ -2,6 +2,14 @@
 interface ExerciseContent{
     name : string;
     exerciseCount : number;
+    kind : string;
+    description : string;
+    groupProjectCount : number;
+    backgroundMaterial : string;
+}
+
+interface ContentProp {
+  courseParts : ExerciseContent[]
 }
 /**
  * 
@@ -12,8 +20,13 @@ interface ExerciseContent{
         exerciseCount : 3;
  *  }
  * ]
+ * prop : {courseParts : ExerciseContent[]}
  */
-const Content = ({courseParts} : {courseParts : ExerciseContent[]}) => {
+const Content = ({courseParts} : ContentProp) => {
+    courseParts.forEach(course => {
+      course.
+      console.log(course.name, ":" , course.exerciseCount)
+    })
 
     return (
         <div>
