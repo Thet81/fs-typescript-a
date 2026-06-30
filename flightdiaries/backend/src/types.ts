@@ -22,7 +22,7 @@ export type Visibility = typeof Visibility[keyof typeof Visibility];
 export const NewEntrySchema = z.object({
   weather: z.enum(Weather),
   visibility: z.enum(Visibility),
-  date: z.iso.date(),
+  date: z.string(),
   comment: z.string().optional()
 });
 

@@ -10,16 +10,27 @@ interface Diary {
   visibility : string;
   comment : string
 }
-export const Visibility = {
+const Visibility = {
   Great: 'great',
   Good: 'good',
   Ok: 'ok',
   Poor: 'poor',
 } as const;
 
+const Weather = {
+  Sunny: 'sunny',
+  Rainy: 'rainy',
+  Cloudy: 'cloudy',
+  Stormy: 'stormy',
+  Windy: 'windy',
+} as const;
+
 type Visibility = typeof Visibility[keyof typeof Visibility];
+type Weather = typeof Weather[keyof typeof Weather];
+
 type NewDiary = Omit<Diary,'id'>;
 const visibilityArr : Visibility[] = ['great','good','ok','poor']
+const weatherArr : Weather[] = ['sunny','rainy','cloudy','stormy','windy']
 
 function App() {
   const [diaries, setDiaries] = useState<Diary[]>([]);
@@ -85,7 +96,6 @@ function App() {
       }
       <h1>Add new Entry</h1>
       <form onSubmit={createDiary}>
-      
         <p>
           <label>
           date
@@ -97,99 +107,31 @@ function App() {
         </label>
         </p>
         {/* starts visibility section */}
-        <p>
-        <span> 
-          great
-       </span>
-         <label> 
-          great
-         <input
-          type="radio"
-          name="visibility"
-          value="great"
-          onChange={handleVisibilityChange}
-        />
-       </label>
-
-         <label> 
-          good
-         <input
-          type="radio"
-          name="visibility"
-          value="good"
-          onChange={handleVisibilityChange}
-        />
-       </label>
-        <label> 
-          ok
-         <input
-          type="radio"
-          name="visibility"
-          value="ok"
-          onChange={handleVisibilityChange}
-        />
-       </label>
-        <label> 
-          poor
-         <input
-          type="radio"
-          name="visibility"
-          value="poor"
-          onChange={handleVisibilityChange}
-        />
-       </label>
-       </p>
-       {/* end visibility section */}
-
+        {
+          visibilityArr.map(item => (
+          <>
+            <label key={item}>
+              {item}
+              <input name="visibility" type='radio' value={item} onChange={handleVisibilityChange}/>
+            </label>
+          </>
+          ))
+        }
+        {/* end visibility section */}
+      <p>
        {/* starts weather sesction */}
-       <p>
-        weather
-        <label>
-          sunny 
-          <input
-            type='radio'
-            name="weather"
-            value='sunny'
-            onChange={handleWeatherChange}
-          />
-        </label>
-        <label>
-          rainy 
-          <input
-            type='radio'
-            name="weather"
-            value='rainy'
-            onChange={handleWeatherChange}          />
-        </label>
-        <label>
-          cloudy 
-          <input
-            type='radio'
-            name="weather"
-            value='cloudy'
-            onChange={handleWeatherChange}
-          />
-        </label>
-        <label>
-          stormy 
-          <input
-            type='radio'
-            name="weather"
-            value='stormy'
-            onChange={handleWeatherChange}
-          />
-        </label>
-        <label>
-          windy 
-          <input
-            type='radio'
-            name="weather"
-            value='windy'
-            onChange={handleWeatherChange}
-          />
-        </label>
-       </p>
-      {/* ends weather sesction */}
+         {
+          weatherArr.map(item => (
+          <>
+            <label key={item}>
+              {item}
+              <input name="weather" type='radio' value={item} onChange={handleWeatherChange}/>
+            </label>
+          </>
+          ))
+        }
+        </p>
+       {/* ends weather sesction */}
        <p>
          <label>
         comment 
