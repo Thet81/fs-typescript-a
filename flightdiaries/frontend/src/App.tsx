@@ -10,15 +10,24 @@ interface Diary {
   visibility : string;
   comment : string
 }
+export const Visibility = {
+  Great: 'great',
+  Good: 'good',
+  Ok: 'ok',
+  Poor: 'poor',
+} as const;
 
-type NewDiary = Omit<Diary,'id'>
+type Visibility = typeof Visibility[keyof typeof Visibility];
+type NewDiary = Omit<Diary,'id'>;
+const visibilityArr : Visibility[] = ['great','good','ok','poor']
+
 function App() {
   const [diaries, setDiaries] = useState<Diary[]>([]);
   const [date, setDate] = useState('')
   const [visibility, setVisibility] = useState('')
   const [weather, setWeather] = useState('')
   const [comment, setComment] = useState('')
-  const [errorMessage, setErrorMessage] = useState([])
+  const [errorMessage, setErrorMessage] = useState<string>("")
 
   useEffect(()=> {
     axios.get<Diary[]>('/api/diaries').then(response => {
@@ -45,8 +54,13 @@ function App() {
     }).catch(error => {
       if(axios.isAxiosError(error)){
         console.log(error.status)
-        console.log(error.response?.data.error)
-        setErrorMessage(error.response?.data.error)
+        // console.log(error.response?.data.error)
+        let message = "Error : ";
+        const errorObject = error.response?.data.error;
+        console.log("error message is ", errorObject[0].code)
+        message += errorObject[0].code + " : ";
+        message += errorObject[0].path;
+        setErrorMessage(message);
         // setErrorMessage(error.response?.data.error)
       }else {
         console.log(error)
@@ -54,41 +68,128 @@ function App() {
     })
   }
 
+  const handleVisibilityChange = (event : React.ChangeEvent<HTMLInputElement>)=> {
+    console.log(event.target.value);
+    setVisibility(event.target.value);
+  }
+
+  const handleWeatherChange = (event : React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value)
+    setWeather(event.target.value)
+  }
+
   return (
     <div>
       {
-        errorMessage && (<p>{errorMessage.map(error => <li>{error.code}</li>)}</p>)
+        errorMessage && (<p>{errorMessage}</p>)
       }
       <h1>Add new Entry</h1>
       <form onSubmit={createDiary}>
+      
+        <p>
+          <label>
+          date
+          <input
+            value={date}
+            type="date"
+            onChange={({target}) => setDate(target.value)}
+          />
+        </label>
+        </p>
+        {/* starts visibility section */}
+        <p>
+        <span> 
+          great
+       </span>
+         <label> 
+          great
+         <input
+          type="radio"
+          name="visibility"
+          value="great"
+          onChange={handleVisibilityChange}
+        />
+       </label>
+
+         <label> 
+          good
+         <input
+          type="radio"
+          name="visibility"
+          value="good"
+          onChange={handleVisibilityChange}
+        />
+       </label>
+        <label> 
+          ok
+         <input
+          type="radio"
+          name="visibility"
+          value="ok"
+          onChange={handleVisibilityChange}
+        />
+       </label>
+        <label> 
+          poor
+         <input
+          type="radio"
+          name="visibility"
+          value="poor"
+          onChange={handleVisibilityChange}
+        />
+       </label>
+       </p>
+       {/* end visibility section */}
+
+       {/* starts weather sesction */}
        <p>
+        weather
         <label>
-        date
-         <input
-          value={date}
-          type="date"
-          onChange={({target}) => setDate(target.value)}
-        />
-       </label>
+          sunny 
+          <input
+            type='radio'
+            name="weather"
+            value='sunny'
+            onChange={handleWeatherChange}
+          />
+        </label>
+        <label>
+          rainy 
+          <input
+            type='radio'
+            name="weather"
+            value='rainy'
+            onChange={handleWeatherChange}          />
+        </label>
+        <label>
+          cloudy 
+          <input
+            type='radio'
+            name="weather"
+            value='cloudy'
+            onChange={handleWeatherChange}
+          />
+        </label>
+        <label>
+          stormy 
+          <input
+            type='radio'
+            name="weather"
+            value='stormy'
+            onChange={handleWeatherChange}
+          />
+        </label>
+        <label>
+          windy 
+          <input
+            type='radio'
+            name="weather"
+            value='windy'
+            onChange={handleWeatherChange}
+          />
+        </label>
        </p>
-       <p>
-         <label>
-        visibility 
-         <input
-          value={visibility}
-          onChange={({target}) => setVisibility(target.value)}
-        />
-       </label>
-       </p>
-       <p>
-         <label>
-        weather 
-         <input
-          value={weather}
-          onChange={({target}) => setWeather(target.value)}
-        />
-       </label>
-       </p>
+      {/* ends weather sesction */}
        <p>
          <label>
         comment 
