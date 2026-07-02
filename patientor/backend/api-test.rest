@@ -10,5 +10,9 @@ Content-Type: application/json
     "name" : "John Doe",
     "dateOfBirth" : "1998-5-20",
     "gender" : "female",
-    "occupation" : "doctor"
+    "occupation" : "doctor",
+    "ssn" : "012"
 }
+
+### 
+GET http://localhost:3001/api/patients/d2773598-f723-11e9-8f0b-362b9e155667

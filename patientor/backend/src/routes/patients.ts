@@ -10,6 +10,12 @@ router.get('/',(_req,res)=> {
     res.send(patientData);
 });
 
+router.get('/:id',(req,res)=> {
+    const id = req.params.id;
+    const patient = patientService.getPatientById(id);
+    res.send(patient);
+})
+
 router.post('/',middleware.parsePatient,(req : Request<unknown,unknown,NewPatientEntry>,res : Response<Patients>)=>{
     const addedPatient = patientService.addPatients(req.body);
     res.json(addedPatient);

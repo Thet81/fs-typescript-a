@@ -1,6 +1,10 @@
 import z from "zod";
 import { NewPatientSchema } from "./utils.ts";
 
+
+interface Entry {
+    id ?: string
+}
 export interface Diagnoses {
     code : string;
     name : string;
@@ -22,9 +26,10 @@ export interface Patients {
     ssn : string;
     gender : Gender;
     occupation : string;
+    entries : Entry[];
 }
 
-// export type NonsensitivePatientsData = Omit<Patients,'ssn'>;
+export type NonsensitivePatientsData = Omit<Patients,'ssn'>;
 // export type NewPatientEntry = Omit<Patients,'id'>;
 export type NewPatientEntry = z.infer<typeof NewPatientSchema>;
 
